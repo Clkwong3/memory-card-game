@@ -3,6 +3,7 @@ function Card({ emoji, isFlipped, onCardClick }) {
     <div
       className={`emoji-card ${isFlipped ? "card-turn" : ""}`}
       onClick={onCardClick}
+      role="button"
     >
       <div className="card-inner">
         <div className="front">
