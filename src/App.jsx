@@ -59,6 +59,9 @@ function App() {
 
     // Update the state with the shuffled cards
     setCards(shuffledCards);
+
+    // Return the shuffled cards
+    return shuffledCards;
   };
 
   useEffect(() => {
