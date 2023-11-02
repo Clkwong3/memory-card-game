@@ -115,7 +115,11 @@ function App() {
   // Handle card click
   const handleCardClick = (index) => {
     // Check if the game is already won before allowing card clicks
-    if (isGameWon(cards)) {
+    // Check if the game is already won or if two cards are already flipped
+    if (
+      isGameWon(cards) ||
+      cards.filter((card) => card.isFlipped && !card.isMatched).length >= 2
+    ) {
       return;
     }
 
@@ -130,10 +134,19 @@ function App() {
     // Flip the clicked card
     clickedCard.isFlipped = true;
 
-    // Check for matching cards and update game state
-    checkMatching(updatedCards);
+    // Update the state with the changed card
+    setCards(updatedCards);
 
-    setCards(updatedCards); // Update the state with the changed cards
+    // Check if two cards are now flipped for matching
+    const flippedCards = updatedCards.filter(
+      (card) => card.isFlipped && !card.isMatched
+    );
+    
+    if (flippedCards.length === 2) {
+      // Check for matching cards and update game state
+      checkMatching(updatedCards);
+    }
+
     setMoves(moves + 1); // Increase the moves count
 
     // Check if all cards are matched after the current move
