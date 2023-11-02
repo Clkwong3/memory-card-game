@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Grid from "./components/Grid";
+import './App.css';
 
 // An array of Halloween emojis, each repeated twice for matching pairs
 const halloweenEmojis = [
@@ -141,7 +142,7 @@ function App() {
     const flippedCards = updatedCards.filter(
       (card) => card.isFlipped && !card.isMatched
     );
-    
+
     if (flippedCards.length === 2) {
       // Check for matching cards and update game state
       checkMatching(updatedCards);
@@ -181,11 +182,12 @@ function App() {
       <h1>Memory Card Game</h1>
       <Grid cards={cards} onCardClick={handleCardClick} />
       <p>Moves: {moves}</p>
-      <button onClick={handleRestart}>Restart Game</button>
+      <button className="reset" onClick={handleRestart}>
+        Restart Game
+      </button>
     </div>
   );
 }
 
 export default App;
 
-// Find a way so that only 2 cards can be flipped at any one time

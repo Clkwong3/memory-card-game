@@ -10,6 +10,7 @@
 body {
   display: flex;
   justify-content: center;
+  text-align: center; 
   align-items: center;
   min-height: 100vh;
   background: linear-gradient(to bottom, #d42d10, #5200f5);
@@ -25,31 +26,6 @@ body {
   gap: 35px;
   background: #d58b01;
   padding: 40px 60px;
-}
-
-/* Style the game title */
-.container h1 {
-  font-size: 3em;
-  letter-spacing: 3px;
-  text-shadow: 2px 2px 4px #f3ecec;
-}
-
-/* Style the "Reset Game" button */
-.reset {
-  padding: 15px 20px;
-  color: #096709;
-  background-color: #ffffff;
-  text-transform: uppercase;
-  font-size: 1.2em;
-  letter-spacing: 1px;
-  cursor: pointer;
-  font-weight: 600;
-}
-
-/* Change button colors when focused */
-.reset:focus {
-  color: #ffffff;
-  background-color: #096709;
 }
 
 /* Style the game board containing the cards */
