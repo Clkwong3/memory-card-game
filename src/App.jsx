@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import Grid from "./components/Grid";
 
+// An array of Halloween emojis, each repeated twice for matching pairs
 const halloweenEmojis = [
-  // An array of Halloween emojis, each repeated twice for matching pairs
   "🎃",
   "🎃",
   "👻",
@@ -33,6 +33,7 @@ const halloweenEmojis = [
   "🌙",
 ];
 
+// Create initial game cards from the emojis
 const initialCards = halloweenEmojis.map((emoji, index) => ({
   id: index,
   emoji,
@@ -41,14 +42,15 @@ const initialCards = halloweenEmojis.map((emoji, index) => ({
 }));
 
 function App() {
-  // Define your game state
-  const [cards, setCards] = useState(initialCards);
-  const [moves, setMoves] = useState(0);
+  // Define game state using React's useState hook
+  const [cards, setCards] = useState(initialCards); // Cards and their state
+  const [moves, setMoves] = useState(0); // Number of moves made
 
+  // Function to shuffle the cards
   const shuffleCards = () => {
-    // Create a copy of the cards array to avoid mutating the original state
-    const shuffledCards = [...cards];
+    const shuffledCards = [...cards]; // Create a copy to avoid changing the original
 
+    // Fisher-Yates shuffle algorithm
     for (let i = shuffledCards.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [shuffledCards[i], shuffledCards[j]] = [
@@ -60,16 +62,16 @@ function App() {
     // Update the state with the shuffled cards
     setCards(shuffledCards);
 
-    // Return the shuffled cards
+    // Return the shuffled cards (not needed but can be useful)
     return shuffledCards;
   };
 
+  // Initialize the game when the component loads
   useEffect(() => {
-    // Game initialization logic
     shuffleCards(); // Shuffle the cards
   }, []);
 
-  // Function to check if two flipped cards match
+  // Check if two flipped cards match
   const checkMatching = (updatedCards) => {
     const flippedCards = updatedCards.filter(
       (card) => card.isFlipped && !card.isMatched
@@ -79,7 +81,7 @@ function App() {
       const [card1, card2] = flippedCards;
 
       if (card1.emoji === card2.emoji) {
-        // Cards match
+        // Cards match, mark them as matched
         card1.isMatched = true;
         card2.isMatched = true;
       } else {
@@ -88,6 +90,7 @@ function App() {
           const idx1 = updatedCards.findIndex((card) => card.id === card1.id);
           const idx2 = updatedCards.findIndex((card) => card.id === card2.id);
 
+          // Update the state to flip cards back
           cards[idx1] = {
             ...updatedCards[idx1],
             isFlipped: false,
@@ -96,58 +99,70 @@ function App() {
             ...updatedCards[idx2],
             isFlipped: false,
           };
-          setCards(cards);
-          setMoves(moves + 1);
-        }, 1000);
+
+          setCards(cards); // Update the state with the flipped cards
+          setMoves(moves + 1); // Increase the moves count
+        }, 1000); // Wait for 1 second (1000 milliseconds)
       }
     }
   };
 
+  // Check if the game is won
   const isGameWon = (updatedCards) => {
     return updatedCards.every((card) => card.isMatched);
   };
 
+  // Handle card click
   const handleCardClick = (index) => {
-    // Ensure the game isn't over before allowing card clicks
+    // Check if the game is already won before allowing card clicks
     if (isGameWon(cards)) {
       return;
     }
 
     const updatedCards = [...cards];
     const clickedCard = updatedCards[index];
+
     // Check if the clicked card is already matched or flipped
     if (clickedCard.isMatched || clickedCard.isFlipped) {
       return;
     }
 
-    // Flip the card
+    // Flip the clicked card
     clickedCard.isFlipped = true;
 
     // Check for matching cards and update game state
     checkMatching(updatedCards);
 
-    if (isGameWon(updatedCards)) {
-      alert("You win!");
-    }
+    setCards(updatedCards); // Update the state with the changed cards
+    setMoves(moves + 1); // Increase the moves count
 
-    setCards(updatedCards);
-    setMoves(moves + 1);
+    // Check if all cards are matched after the current move
+    if (isGameWon(updatedCards)) {
+      // Show the victory alert after all cards are matched
+      setTimeout(() => {
+        alert("You win!");
+      }, 1000); // Wait for 1 second (1000 milliseconds)
+    }
   };
 
+  // Reset the game
   const resetGame = (shuffledCards) => {
+    // Reset all cards to their initial state
     shuffledCards.forEach((card) => {
       card.isFlipped = false;
       card.isMatched = false;
     });
   };
 
+  // Handle game restart
   const handleRestart = () => {
     const shuffledCards = shuffleCards([...cards]); // Reshuffle the cards
     resetGame(shuffledCards); // Reset the game state
-    setCards(shuffledCards);
-    setMoves(0);
+    setCards(shuffledCards); // Update the state with shuffled cards
+    setMoves(0); // Reset the moves count
   };
 
+  // Render the game interface
   return (
     <div className="app">
       <h1>Memory Card Game</h1>
@@ -159,3 +174,5 @@ function App() {
 }
 
 export default App;
+
+// Find a way so that only 2 cards can be flipped at any one time
