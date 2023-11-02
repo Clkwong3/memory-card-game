@@ -1,79 +1,19 @@
-import Card from "./Card.jsx";
+import Card from './Card';
 
-export default function Grid() {
+function Grid({ cards, onCardClick }) {
   return (
-    <div className="grid">
-      <h1>Grid</h1>
-      <table>
-        <tr>
-          <td>
-            <Card />
-          </td>
-          <td>
-            <Card />
-          </td>
-          <td>
-            <Card />
-          </td>
-          <td>
-            <Card />
-          </td>
-          <td>
-            <Card />
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <Card />
-          </td>
-          <td>
-            <Card />
-          </td>
-          <td>
-            <Card />
-          </td>
-          <td>
-            <Card />
-          </td>
-          <td>
-            <Card />
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <Card />
-          </td>
-          <td>
-            <Card />
-          </td>
-          <td>
-            <Card />
-          </td>
-          <td>
-            <Card />
-          </td>
-          <td>
-            <Card />
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <Card />
-          </td>
-          <td>
-            <Card />
-          </td>
-          <td>
-            <Card />
-          </td>
-          <td>
-            <Card />
-          </td>
-          <td>
-            <Card />
-          </td>
-        </tr>
-      </table>
+    <div className="card-game">
+      {cards.map((card, index) => (
+        <Card
+          key={index}
+          emoji={card.emoji}
+          isFlipped={card.isFlipped}
+          isMatched={card.isMatched}
+          onCardClick={() => onCardClick(index)}
+        />
+      ))}
     </div>
   );
 }
+
+export default Grid;
